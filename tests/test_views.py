@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class ViewTests(TestCase):
 
-    def test__user_not_logged_in(self):
+    def test_user_not_logged_in(self):
         """
         Test user not logged in
         """

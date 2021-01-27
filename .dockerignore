@@ -1,0 +1,34 @@
+# Docker
+Dockerfile
+.dockerignore
+
+# Git, GitHub
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Python
+*/__pycache__/
+
+# Tox, Pytest, Coverage
+.tox/
+.pytest_cache/
+.benchmarks/
+.coverage
+htmlcov/
+
+# Heroku
+Procfile
+
+# Postman
+postman/
+
+# Database
+db.sqlite3
