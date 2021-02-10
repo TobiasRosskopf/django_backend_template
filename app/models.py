@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 
-# from django.db import models
+from django.contrib.gis.db import models
 
 
 class CustomUser(AbstractUser):
@@ -24,3 +24,16 @@ class CustomGroup(Group):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.PointField()
+
+    class Meta:
+        verbose_name = "Standort"
+        verbose_name_plural = "Standorte"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name

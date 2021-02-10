@@ -10,6 +10,7 @@ RUN apt-get install fish -y
 RUN apt-get install htop
 RUN apt-get install nano
 RUN apt-get install sqlite3
+RUN apt-get install gdal-bin -y
 
 COPY Pipfile.lock /code/
 
