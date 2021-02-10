@@ -13,6 +13,7 @@ RUN apt-get install sqlite3
 
 COPY Pipfile.lock /code/
 
+RUN pip install --upgrade pip
 RUN pip install pipenv-to-requirements
 RUN pipenv_to_requirements --freeze
 RUN pip install -r requirements.txt
