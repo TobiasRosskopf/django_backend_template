@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest]
         node-version: [12.x]
         python-version: [3.6, 3.7, 3.8, 3.9]
-        postgres-version: [13]
+        postgres-version: [13.x, "latest"]
 
     runs-on: ${{ matrix.os }}
 
@@ -39,7 +39,7 @@ jobs:
     - name: Set up GDAL
       run: sudo apt-get install gdal-bin -y
 
-    - name: Set up PostGIS ${{ matrix.postgres-version }}
+    - name: Set up PostgreSQL ${{ matrix.postgres-version }} with PostGIS extension
       uses: huaxk/postgis-action@v1
       with:
         postgresql version: ${{ matrix.postgres-version }}
