@@ -22,3 +22,10 @@ psycopg2-binary = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+start = "python manage.py runserver"
+migrate = "bash -c 'python manage.py makemigrations && python manage.py migrate'"
+test = "pytest"
+lint = "flake8"
+postman = "./postman/run.sh"

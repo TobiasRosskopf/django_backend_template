@@ -416,6 +416,57 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"// Tests",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'Created'\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "test_location",
+							"type": "text"
+						},
+						{
+							"key": "geom",
+							"value": "{\"type\": \"Point\", \"coordinates\": [42.0, 50.0]}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{server}}/locations/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -488,7 +539,7 @@
 							"",
 							"pm.test(\"Verify locationname\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.properties.name).to.eql(\"Gig\");",
+							"    pm.expect(jsonData.properties.name).to.eql(\"test_location\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -506,13 +557,51 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "{{server}}/locations/Gig/",
+					"raw": "{{server}}/locations/test_location/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
 						"locations",
-						"Gig",
+						"test_location",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location Detail Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tests",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'No Content'\", function () {",
+							"    pm.response.to.have.status(\"No Content\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/locations/test_location/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"locations",
+						"test_location",
 						""
 					]
 				}
