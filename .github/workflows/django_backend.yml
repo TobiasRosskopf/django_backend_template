@@ -13,7 +13,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        # os: [ubuntu-latest', macos-latest, windows-latest]
+        os: [ubuntu-latest']
         python-version: [3.6, 3.7, 3.8, 3.9]
 
     runs-on: ${{ matrix.os }}
@@ -29,7 +30,6 @@ jobs:
         postgresql db: 'geodjango_db'
         postgresql user: 'tobi'
         postgresql password: 'password'
-        postgresql port: 25432
 
     - name: Set up Python Version
       uses: actions/setup-python@v2
