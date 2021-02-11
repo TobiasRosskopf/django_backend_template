@@ -87,7 +87,8 @@ DATABASES = {
         'NAME': 'geodjango_db',
         'USER': 'tobi',
         'PASSWORD': 'password',
-        'HOST': 'host.docker.internal',
+        'HOST': 'localhost',
+        # 'HOST': 'host.docker.internal',
         'PORT': '25432',
     },
 }

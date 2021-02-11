@@ -5,9 +5,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
-from .serializers import UserSerializer, UserSerializerWithToken
-
+# Import models
 from .models import CustomUser
+from .models import Location
+
+# Import serializers
+from .serializers import UserSerializer, UserSerializerWithToken
+from .serializers import LocationSerializer
 
 
 @api_view(["POST"])
@@ -55,4 +59,34 @@ class UserDetail(APIView):
     def delete(self, request, username, format=None):
         user = self.get_object(username)
         user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LocationList(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        locations = Location.objects.all()
+        serializer = LocationSerializer(locations, many=True)
+        return Response(serializer.data)
+
+class LocationDetail(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, name):
+        try:
+            return Location.objects.get(name=name)
+        except Location.DoesNotExist:
+            raise Http404
+
+    def get(self, request, name, format=None):
+        location = self.get_object(name)
+        serializer = LocationSerializer(location)
+        return Response(serializer.data)
+
+    def delete(self, request, name, format=None):
+        location = self.get_object(name)
+        location.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

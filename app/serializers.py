@@ -3,6 +3,7 @@ from rest_framework_jwt.settings import api_settings
 
 # Import models
 from .models import CustomUser
+from .models import Location
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,3 +39,10 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ("token", "username", "password")
+
+
+class LocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = ("name", "geom")
