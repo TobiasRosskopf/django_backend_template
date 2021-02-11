@@ -23,6 +23,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set up GDAL
+      run: |
+        apt-get install gdal-bin -y
+
     - name: Set up PostGIS
       uses: huaxk/postgis-action@v1
       with:
