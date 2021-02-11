@@ -1,5 +1,7 @@
 # Django Backend Template
 
+![Django Backend](https://github.com/TobiasRosskopf/django_backend_template/workflows/Django%20Backend/badge.svg?branch=master)
+
 This project was bootstrapped with  [Django-Admin](https://docs.djangoproject.com/en/3.1/ref/django-admin/#startproject).
 
 ## Needed globaly
