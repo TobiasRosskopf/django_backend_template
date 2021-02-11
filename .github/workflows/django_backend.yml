@@ -83,4 +83,4 @@ jobs:
         python manage.py runserver &
         sleep 2
         ./postman/run.sh
-        kill -9 `lsof -i:5000 -t`
+        kill -9 `lsof -i:8000 -t`
