@@ -2,11 +2,12 @@
 	"info": {
 		"_postman_id": "074d18ad-06e1-4b82-bb85-d8cbf58c0cbf",
 		"name": "django_backend_template",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "New User",
+			"name": "Signup",
 			"event": [
 				{
 					"listen": "test",
@@ -63,21 +64,15 @@
 							"value": "{{password}}",
 							"type": "text"
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
-					"raw": "{{server}}/api/users/",
+					"raw": "{{server}}/signup/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"api",
-						"users",
+						"signup",
 						""
 					]
 				}
@@ -142,20 +137,70 @@
 							"value": "{{password}}",
 							"type": "text"
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
-					"raw": "{{server}}/token-auth/",
+					"raw": "{{server}}/login/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"token-auth",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login (FAIL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tests",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{server}}/login/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"login",
 						""
 					]
 				}
@@ -200,12 +245,55 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{server}}/api/current_user/",
+					"raw": "{{server}}/current_user/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"api",
+						"current_user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current User (FAIL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tests",
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'Unauthorized'\", function () {",
+							"    pm.response.to.have.status(\"Unauthorized\");",
+							"});",
+							"",
+							"pm.test(\"Response includes 'detail'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"detail\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/current_user/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
 						"current_user",
 						""
 					]
@@ -251,12 +339,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{server}}/api/users/",
+					"raw": "{{server}}/users/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"api",
 						"users",
 						""
 					]
@@ -306,20 +393,14 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"formdata": []
 				},
 				"url": {
-					"raw": "{{server}}/api/users/{{username}}/",
+					"raw": "{{server}}/users/{{username}}/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"api",
 						"users",
 						"{{username}}",
 						""
@@ -329,7 +410,117 @@
 			"response": []
 		},
 		{
-			"name": "User Detail",
+			"name": "Location List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'OK'\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"console.log(pm.response.json().features[0].geometry.coordinates[0]);",
+							"",
+							"// Visualizer",
+							"let template = `",
+							"    <h1>Locations</h1>",
+							"    <table>",
+							"        {{# each response.features}}",
+							"            <tr>",
+							"                <td>{{id}}</td>",
+							"                <td>{{properties.name}}</td>",
+							"                <td>{{geometry.type}}</td>",
+							"                <td>{{geometry.coordinates}}</td>",
+							"            </tr>",
+							"        {{/each}}",
+							"    </table>",
+							"`;",
+							"pm.visualizer.set(template, {response: pm.response.json()});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/locations/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"locations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Location Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tests",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'OK'\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"Response includes 'id'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"id\");",
+							"});",
+							"",
+							"pm.test(\"Response includes 'geometry'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"geometry\");",
+							"});",
+							"",
+							"pm.test(\"Verify locationname\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.properties.name).to.eql(\"Gig\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{server}}/locations/Gig/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"locations",
+						"Gig",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Detail (LOGOUT)",
 			"event": [
 				{
 					"listen": "test",
@@ -365,20 +556,14 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"formdata": []
 				},
 				"url": {
-					"raw": "{{server}}/api/users/{{username}}/",
+					"raw": "{{server}}/users/{{username}}/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"api",
 						"users",
 						"{{username}}",
 						""

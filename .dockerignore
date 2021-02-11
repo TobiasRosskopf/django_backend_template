@@ -32,3 +32,6 @@ postman/
 
 # Database
 db.sqlite3
+
+# Development environment variables
+.env

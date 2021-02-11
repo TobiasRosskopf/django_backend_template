@@ -21,6 +21,14 @@ RUN pip install -r requirements.txt
 
 COPY . /code/
 
+ENV SECRET_KEY=^3benx!y1m6#cy)_4)z8#&3av#od8#pkhcxm*$i!m&f*w&ckpo
+ENV DB_HOST=host.docker.internal
+ENV DB_PORT=25432
+ENV DB_NAME=geodjango_db
+ENV DB_USER=tobi
+ENV DB_PASSWORD=password
+ENV DEBUG=False
+
 RUN python manage.py makemigrations
 RUN python manage.py migrate
 

@@ -22,12 +22,13 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: True
       DB_HOST: ${{ secrets.DB_HOST }}
       DB_PORT: ${{ secrets.DB_PORT }}
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
     - name: Checkout
@@ -66,3 +67,14 @@ jobs:
 
     - name: Test with pytest
       run: pytest
+
+    - name: Run server
+      run: python manage.py runserver
+
+    - name: Set up Postman (newman)
+      run: |
+        sudo apt-get install npm
+        npm install newman -g
+
+    - name: Test API with Postman (newman)
+      run: ./postman/run.sh
