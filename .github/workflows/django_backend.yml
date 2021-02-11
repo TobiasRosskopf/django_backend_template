@@ -38,6 +38,13 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     - name: Install dependencies
       run: |
@@ -52,8 +59,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Run migrations
-      env:
-        SECRET_KEY: GX@Zuy'zwF>9/j|EI]{0
       run: python manage.py migrate
 
     - name: Test with pytest

@@ -41,3 +41,5 @@ Runs the project as a webserver.
 https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 
 https://www.django-rest-framework.org/api-guide/permissions/
+
+https://github.com/openwisp/django-rest-framework-gis
