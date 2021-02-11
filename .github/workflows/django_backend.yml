@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Django Backend
+name: Django Backend CI
 
 on:
   push:
@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     strategy:
+      max-parallel: 2
       matrix:
         os: [ubuntu-latest]
         python-version: [3.6, 3.7, 3.8, 3.9]
@@ -33,7 +34,7 @@ jobs:
         postgresql user: ${{ secrets.DB_USER }}
         postgresql password: ${{ secrets.DB_PASSWORD }}
 
-    - name: Set up Python Version
+    - name: Set up Python Version ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -52,7 +53,7 @@ jobs:
 
     - name: Run migrations
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: GX@Zuy'zwF>9/j|EI]{0
       run: python manage.py migrate
 
     - name: Test with pytest
