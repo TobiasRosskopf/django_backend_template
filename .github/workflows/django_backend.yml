@@ -25,7 +25,7 @@ jobs:
 
     - name: Set up GDAL
       run: |
-        apt-get install gdal-bin -y
+        sudo apt-get install gdal-bin -y
 
     - name: Set up PostGIS
       uses: huaxk/postgis-action@v1
