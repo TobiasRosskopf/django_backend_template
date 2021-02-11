@@ -22,6 +22,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set up PostGIS
+    - uses: huaxk/postgis-action@v1
+      with:
+        postgresql version: 'latest'
+        postgresql db: 'geodjango_db'
+        postgresql user: 'tobi'
+        postgresql password: 'password'
+        postgresql port: 25432
+
     - name: Set up Python Version
       uses: actions/setup-python@v2
       with:

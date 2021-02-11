@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework_jwt.settings import api_settings
 
 # Import models
@@ -6,14 +8,14 @@ from .models import CustomUser
 from .models import Location
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
 
     class Meta:
         model = CustomUser
         fields = ("username", "email")
 
 
-class UserSerializerWithToken(serializers.ModelSerializer):
+class UserSerializerWithToken(ModelSerializer):
 
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
@@ -41,8 +43,9 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         fields = ("token", "username", "password")
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationSerializer(GeoFeatureModelSerializer):
 
     class Meta:
         model = Location
-        fields = ("name", "geom")
+        geo_field = "geom"
+        fields = ("id", "name", "geom")
