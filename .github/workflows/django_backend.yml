@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up PostGIS
-    - uses: huaxk/postgis-action@v1
+      uses: huaxk/postgis-action@v1
       with:
         postgresql version: 'latest'
         postgresql db: 'geodjango_db'
