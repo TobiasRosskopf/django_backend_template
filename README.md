@@ -13,7 +13,7 @@ This project was bootstrapped with  [Django-Admin](https://docs.djangoproject.co
 
 In the project directory, you can run:
 
-### `pipenv install`
+### `pipenv install --dev`
 
 Creates a virtual environment for python with all dependencies from Pipfile.
 
