@@ -27,6 +27,7 @@ python_version = "3.8"
 [scripts]
 start = "python manage.py runserver"
 migrate = "bash -c 'python manage.py makemigrations && python manage.py migrate'"
+shell = "python manage.py shell"
 test = "pytest"
 lint = "flake8"
 tox = "tox --parallel auto"
