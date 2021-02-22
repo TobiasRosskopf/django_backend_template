@@ -15,7 +15,7 @@ tox = "*"
 [packages]
 django = "*"
 djangorestframework = "*"
-djangorestframework-jwt = "*"
+djangorestframework-simplejwt = "*"
 djangorestframework-gis = "*"
 django-cors-headers = "*"
 gunicorn = "*"
