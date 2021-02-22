@@ -16,5 +16,5 @@ class ViewTests(TestCase):
             "username": "testuser01",
             "password": "top_secret",
         }
-        response = self.client.post('/signup/', data=data)
-        self.assertEqual(response.status_code, 201)
+        response = self.client.post('/register/', data=data)
+        self.assertEqual(response.status_code, 200)
