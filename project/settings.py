@@ -147,12 +147,9 @@ STATICFILES_DIRS = (
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
 CORS_ORIGIN_WHITELIST = (
@@ -169,7 +166,3 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:5000',
     'https://127.0.0.1:5000',
 )
-
-JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'project.utils.jwt_response_handler'
-}

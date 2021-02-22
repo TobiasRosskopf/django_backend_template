@@ -1,13 +1,19 @@
 from django.urls import path
 
-from .views import current_user, signup
+from rest_framework_simplejwt import views as jwt_views
+
+from .views import current_user, RegisterApi
 from .views import UserList, UserDetail
 from .views import LocationList, LocationDetail
 
 
 urlpatterns = [
+    # Authenication (JWT)
+    path("token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
+
     # AllowAny
-    path("signup/", signup),
+    path("register/", RegisterApi.as_view()),
 
     # IsAuthenticated
     path("current_user/", current_user),

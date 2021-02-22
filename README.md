@@ -43,3 +43,7 @@ https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 https://www.django-rest-framework.org/api-guide/permissions/
 
 https://github.com/openwisp/django-rest-framework-gis
+
+https://py.plainenglish.io/django-rest-framework-jwt-auth-with-login-and-register-77f830cd8789
+
+https://simpleisbetterthancomplex.com/tutorial/2018/12/19/how-to-use-jwt-authentication-with-django-rest-framework.html
