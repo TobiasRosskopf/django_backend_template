@@ -15,31 +15,27 @@
 						"exec": [
 							"// Tests",
 							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Status code name is 'Created'\", function () {",
-							"    pm.response.to.have.status(\"Created\");",
+							"pm.test(\"Status code name is 'OK'\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
 							"});",
 							"",
 							"pm.test(\"Response includes 'username'\", function () {",
-							"    pm.expect(pm.response.json()).to.include.keys(\"username\");",
+							"    pm.expect(pm.response.json().user).to.include.keys(\"username\");",
 							"});",
 							"",
-							"pm.test(\"Response includes 'token'\", function () {",
-							"    pm.expect(pm.response.json()).to.include.keys(\"token\");",
+							"pm.test(\"Response includes 'id'\", function () {",
+							"    pm.expect(pm.response.json().user).to.include.keys(\"id\");",
 							"});",
 							"",
 							"pm.test(\"Verify username\", function () {",
 							"    var username = pm.environment.get(\"username\");",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.username).to.eql(username);",
+							"    pm.expect(jsonData.user.username).to.eql(username);",
 							"});",
-							"",
-							"",
-							"// Save JSON Web Token to environment",
-							"let jwt = pm.response.json().token;",
-							"pm.environment.set(\"jwt\", jwt);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -67,12 +63,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{server}}/signup/",
+					"raw": "{{server}}/register/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"signup",
+						"register",
 						""
 					]
 				}
@@ -95,24 +91,21 @@
 							"    pm.response.to.have.status(\"OK\");",
 							"});",
 							"",
-							"pm.test(\"Response includes 'user'\", function () {",
-							"    pm.expect(pm.response.json()).to.include.keys(\"username\");",
+							"pm.test(\"Response includes 'access'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"access\");",
 							"});",
 							"",
-							"pm.test(\"Response includes 'token'\", function () {",
-							"    pm.expect(pm.response.json()).to.include.keys(\"token\");",
-							"});",
-							"",
-							"pm.test(\"Verify username\", function () {",
-							"    var username = pm.environment.get(\"username\");",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.username).to.eql(username);",
+							"pm.test(\"Response includes 'refresh'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"refresh\");",
 							"});",
 							"",
 							"",
-							"// Save JSON Web Token to environment",
-							"let jwt = pm.response.json().token;",
-							"pm.environment.set(\"jwt\", jwt);"
+							"// Save JSON Web Tokens to environment",
+							"let access_token = pm.response.json().access;",
+							"pm.environment.set(\"access_token\", access_token);",
+							"",
+							"let refresh_token = pm.response.json().refresh;",
+							"pm.environment.set(\"refresh_token\", refresh_token);"
 						],
 						"type": "text/javascript"
 					}
@@ -140,12 +133,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{server}}/login/",
+					"raw": "{{server}}/token/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"login",
+						"token",
 						""
 					]
 				}
@@ -195,12 +188,69 @@
 					]
 				},
 				"url": {
-					"raw": "{{server}}/login/",
+					"raw": "{{server}}/token/",
 					"host": [
 						"{{server}}"
 					],
 					"path": [
-						"login",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Tests",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code name is 'OK'\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"Response includes 'access'\", function () {",
+							"    pm.expect(pm.response.json()).to.include.keys(\"access\");",
+							"});",
+							"",
+							"",
+							"// Save new JSON Web Token to environment",
+							"let access_token = pm.response.json().access;",
+							"pm.environment.set(\"access_token\", access_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "{{refresh_token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{server}}/token/refresh/",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"token",
+						"refresh",
 						""
 					]
 				}
@@ -651,7 +701,7 @@
 							"});",
 							"",
 							"// Delete JSON Web Token",
-							"pm.environment.unset(\"jwt\");",
+							"pm.environment.unset(\"access_token\");",
 							""
 						],
 						"type": "text/javascript"
@@ -690,16 +740,11 @@
 		}
 	],
 	"auth": {
-		"type": "apikey",
-		"apikey": [
+		"type": "bearer",
+		"bearer": [
 			{
-				"key": "key",
-				"value": "Authorization",
-				"type": "string"
-			},
-			{
-				"key": "value",
-				"value": "JWT {{jwt}}",
+				"key": "token",
+				"value": "{{access_token}}",
 				"type": "string"
 			}
 		]
