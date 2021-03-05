@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     strategy:
-      name: Test
       max-parallel: 2
       matrix:
         os: [ubuntu-latest]
